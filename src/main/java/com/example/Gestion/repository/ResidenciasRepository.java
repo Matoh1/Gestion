@@ -10,8 +10,8 @@ import com.example.Gestion.model.Residencias;
 
 @Repository
 public interface ResidenciasRepository extends JpaRepository<Residencias, Integer> {
-    Optional<Residencias> findByResidencia_ResidenciaIdAndUser_UserId(Integer residenciaId, Integer userId);
+    Optional<Residencias> findByResidencia_IdAndUser_Id(Integer residenciaId, Integer userId);
 
-    List<Residencias> findByUser_UserId(Integer userId);
+    List<Residencias> findByUser_Id(Integer userId);
 
 }
