@@ -19,7 +19,7 @@ public class ComunaDTO {
     private String nombre;
     private Integer regionId;
     @NotBlank(message = "El nombre de la región no puede estar vacío")
-    private String nombreRegion;
+    private String region;
     private List<String> residencia;
 
 }

@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 public class EspacioDTO {
 
     private Integer id;
-    private String nombrelugar;
-    private String tipoespacio;
+    private String nombre;
+    private String tipo;
     private Integer capacidad;
     private List<String> Espacios;
 }
