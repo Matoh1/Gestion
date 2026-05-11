@@ -151,8 +151,8 @@ src
 ## ✍️ Autores
 
 - Matias Alejandro Contreras
-- Joel Sangster
-- Matias Contreras
-- no me se el nombre ಥ_ಥ
+- Joel Etienne Sangster
+- Matias Alejandro Contreras
+- Román Valentino Oliva
 
 Estudiantes de Ingeniería en Informática, apasionados por el backend y el desarrollo con Java y Spring Boot.
