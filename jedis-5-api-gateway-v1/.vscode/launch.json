@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-JedisApplication<jedis>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.jedi.jedis.JedisApplication",
+            "projectName": "jedis",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
