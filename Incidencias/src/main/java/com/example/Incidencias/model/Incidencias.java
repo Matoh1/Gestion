@@ -1,4 +1,4 @@
-package com.example.Gestion.model;
+package com.example.Incidencias.model;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -8,20 +8,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -33,9 +29,12 @@ public class Incidencias {
     @Column(name = "Incidencias_ID")
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "Residencia_ID", nullable = false)
-    private Residencia residencia;
+    // La residencia vive en OTRO microservicio (Residencias). Por eso aqui solo
+    // guardamos su id (no una relacion JPA), igual que el profe guarda jediId en Sables.
+    // El nombre de la residencia se trae por WebClient en el service.
+    @NotNull(message = "La residencia es obligatoria")
+    @Column(name = "Residencia_ID", nullable = false)
+    private Integer residenciaId;
 
     @NotBlank(message = "El titulo del reporte es obligatorio")
     @Size(min = 5, max = 200, message = "El titulo del reporte debe contener entre 5 y 200 caracteres")

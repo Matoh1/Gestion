@@ -10,6 +10,14 @@ spring:
       server:
         webmvc:
           routes:
+            # Microservicio Incidencias (puerto 8083): expone reportes, detalles y tipos.
+            - id: incidencias-service
+              uri: http://127.0.0.1:8083
+              predicates:
+                - Path=/api/v1/incidencias/**,/api/v1/incidencia/**,/api/v1/tipo_incidencias/**
+
+            # TODO equipo: las rutas jedi/sables son del ejemplo del profe.
+            # Reemplazar por las rutas reales (Espacios, Residencias, etc.).
             - id: jedi-service
               uri: http://127.0.0.1:8081
               predicates:

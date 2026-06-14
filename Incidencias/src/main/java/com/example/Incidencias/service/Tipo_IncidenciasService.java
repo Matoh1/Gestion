@@ -1,34 +1,34 @@
-package com.example.Gestion.service;
+package com.example.Incidencias.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.Gestion.DTO.Tipo_IncidenciasDTO;
-import com.example.Gestion.model.Incidencia;
-import com.example.Gestion.model.Tipo_Incidencia;
-import com.example.Gestion.repository.Tipo_IncidenciasRepository;
-
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+import com.example.Incidencias.DTO.Tipo_IncidenciasDTO;
+import com.example.Incidencias.model.Incidencia;
+import com.example.Incidencias.model.Tipo_Incidencia;
+import com.example.Incidencias.repository.Tipo_IncidenciasRepository;
 
 @Service
-@RequiredArgsConstructor
-@Transactional
 public class Tipo_IncidenciasService {
 
-    private final Tipo_IncidenciasRepository tipoIncidenciasRepository;
+    @Autowired
+    private Tipo_IncidenciasRepository tipoIncidenciasRepository;
 
     public List<Tipo_IncidenciasDTO> obtenerTodos() {
-        return tipoIncidenciasRepository.findAll().stream()
-                .map(this::convertirADTO)
-                .toList();
+        List<Tipo_IncidenciasDTO> listaDTOs = new ArrayList<>();
+        List<Tipo_Incidencia> tipos = tipoIncidenciasRepository.findAll();
+        for (Tipo_Incidencia t : tipos) {
+            listaDTOs.add(convertirADTO(t));
+        }
+        return listaDTOs;
     }
 
     public Tipo_IncidenciasDTO buscarporID(Integer id) {
         Tipo_Incidencia tipoIncidencia = tipoIncidenciasRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No se encontro el tipo de incidencia con la ID" + id));
+                .orElseThrow(() -> new RuntimeException("No se encontro el tipo de incidencia con la ID " + id));
         return convertirADTO(tipoIncidencia);
     }
 
@@ -39,7 +39,7 @@ public class Tipo_IncidenciasService {
     public String borrarTipo_Incidencia(Integer id) {
         try {
             Tipo_Incidencia tipoIncidencia = tipoIncidenciasRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("No se encontro el tipo de incidencia con la ID" + id));
+                    .orElseThrow(() -> new RuntimeException("No se encontro el tipo de incidencia con la ID " + id));
 
             tipoIncidenciasRepository.delete(tipoIncidencia);
             return "Tipo de incidencia con ID " + id + " fue eliminado exitosamente";

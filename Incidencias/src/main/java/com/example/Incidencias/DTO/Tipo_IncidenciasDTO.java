@@ -1,16 +1,10 @@
-package com.example.Gestion.DTO;
+package com.example.Incidencias.DTO;
 
 import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class Tipo_IncidenciasDTO {
 
     private Integer id;

@@ -1,4 +1,4 @@
-package com.example.Gestion.controller;
+package com.example.Incidencias.controller;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.Gestion.DTO.Tipo_IncidenciasDTO;
-import com.example.Gestion.model.Tipo_Incidencia;
-import com.example.Gestion.service.Tipo_IncidenciasService;
+import com.example.Incidencias.DTO.Tipo_IncidenciasDTO;
+import com.example.Incidencias.model.Tipo_Incidencia;
+import com.example.Incidencias.service.Tipo_IncidenciasService;
 
 import jakarta.validation.Valid;
 

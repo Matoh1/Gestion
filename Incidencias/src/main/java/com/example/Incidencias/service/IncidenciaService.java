@@ -1,32 +1,33 @@
-package com.example.Gestion.service;
+package com.example.Incidencias.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.Gestion.DTO.IncidenciaDTO;
-import com.example.Gestion.model.Incidencia;
-import com.example.Gestion.repository.IncidenciaRepository;
-
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+import com.example.Incidencias.DTO.IncidenciaDTO;
+import com.example.Incidencias.model.Incidencia;
+import com.example.Incidencias.repository.IncidenciaRepository;
 
 @Service
-@RequiredArgsConstructor
-@Transactional
 public class IncidenciaService {
 
-    private final IncidenciaRepository incidenciaRepository;
+    @Autowired
+    private IncidenciaRepository incidenciaRepository;
 
     public List<IncidenciaDTO> obtenerTodos() {
-        return incidenciaRepository.findAll().stream()
-                .map(this::convertirADTO)
-                .toList();
+        List<IncidenciaDTO> listaDTOs = new ArrayList<>();
+        List<Incidencia> incidencias = incidenciaRepository.findAll();
+        for (Incidencia i : incidencias) {
+            listaDTOs.add(convertirADTO(i));
+        }
+        return listaDTOs;
     }
 
     public IncidenciaDTO buscarporID(Integer id) {
         Incidencia incidencia = incidenciaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No se encontro la incidencia con la ID" + id));
+                .orElseThrow(() -> new RuntimeException("No se encontro la incidencia con la ID " + id));
         return convertirADTO(incidencia);
     }
 
@@ -37,7 +38,7 @@ public class IncidenciaService {
     public String borrarIncidencia(Integer id) {
         try {
             Incidencia incidencia = incidenciaRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("No se encontro la incidencia con la ID" + id));
+                    .orElseThrow(() -> new RuntimeException("No se encontro la incidencia con la ID " + id));
 
             incidenciaRepository.delete(incidencia);
             return "Incidencia con ID " + id + " fue eliminada exitosamente";
