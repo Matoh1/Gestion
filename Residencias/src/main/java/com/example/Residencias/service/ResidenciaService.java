@@ -2,22 +2,20 @@ package com.example.Residencias.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.Residencias.DTO.ComunaDTO;
-import com.example.Residencias.model.Comuna;
+import com.example.Residencias.DTO.ResidenciaDTO;
 import com.example.Residencias.model.Residencia;
-import com.example.Residencias.repository.ComunaRepository;
 import com.example.Residencias.repository.ResidenciaRepository;
 
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 
 @Service
-@
 @Transactional
 public class ResidenciaService {
 
+    @Autowired
     private  ResidenciaRepository residenciaRepository;
 
     public List<ResidenciaDTO> obtenerTodos() {

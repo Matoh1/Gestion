@@ -3,6 +3,7 @@ package com.example.Residencias.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.Residencias.DTO.ComunaDTO;
@@ -17,7 +18,9 @@ import jakarta.transaction.Transactional;
 @Transactional
 public class ComunaService {
 
+    @Autowired
     private  ComunaRepository comunaRepository;
+    @Autowired
     private  ResidenciaRepository residenciaRepository;
 
     public List<ComunaDTO> obtenerTodos() {

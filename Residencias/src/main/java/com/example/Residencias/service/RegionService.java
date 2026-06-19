@@ -3,23 +3,24 @@ package com.example.Residencias.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.Residencias.DTO.ComunaDTO;
+import com.example.Residencias.DTO.RegionDTO;
 import com.example.Residencias.model.Comuna;
-import com.example.Residencias.model.Residencia;
+import com.example.Residencias.model.Region;
 import com.example.Residencias.repository.ComunaRepository;
-import com.example.Residencias.repository.ResidenciaRepository;
+import com.example.Residencias.repository.RegionRepository;
 
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 
 @Service
-@
 @Transactional
 public class RegionService {
 
+    @Autowired
     private  RegionRepository regionRepository;
+    @Autowired
     private  ComunaRepository comunaRepository;
 
     public List<RegionDTO> obtenerTodos() {

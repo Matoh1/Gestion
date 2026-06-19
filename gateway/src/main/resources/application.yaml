@@ -16,14 +16,23 @@ spring:
               predicates:
                 - Path=/api/v1/incidencias/**,/api/v1/incidencia/**,/api/v1/tipo_incidencias/**
 
-            # TODO equipo: las rutas jedi/sables son del ejemplo del profe.
-            # Reemplazar por las rutas reales (Espacios, Residencias, etc.).
-            - id: jedi-service
-              uri: http://127.0.0.1:8081
-              predicates:
-                - Path=/api/v1/jedis/**
-
-            - id: sables-service
+            # Microservicio Residencias (puerto 8082): expone regiones, comunas y residencias.
+            - id: residencia-service
               uri: http://127.0.0.1:8082
               predicates:
-                - Path=/api/v1/sables/**
+                - Path=/api/v1/residencia/**
+
+            - id: comuna-service
+              uri: http://127.0.0.1:8082
+              predicates:
+                - Path=/api/v1/comuna/**
+
+            - id: region-service
+              uri: http://127.0.0.1:8082
+              predicates:
+                - Path=/api/v1/region/**
+
+            - id: residencias-service
+              uri: http://127.0.0.1:8082
+              predicates:
+                - Path=/api/v1/residencias/**
