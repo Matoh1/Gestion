@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.Gestion.DTO.EspaciosDTO;
-import com.example.Gestion.service.EspaciosService;
+import com.example.Espacios.DTO.EspaciosDTO;
+import com.example.Espacios.service.EspaciosService;
 
 @RestController
 @RequestMapping("/api/v1/espacios")
@@ -53,11 +53,11 @@ public class EspaciosController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarVinculo(@PathVariable Integer id) {
-        String resultado = espaciosService.eliminarVinculo(id);
-        if (resultado.startsWith("Error")) {
+        try {
+            String resultado = espaciosService.eliminarVinculo(id);
             return new ResponseEntity<>(resultado, HttpStatus.BAD_REQUEST);
-        } else {
-            return new ResponseEntity<>(resultado, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 

@@ -1,0 +1,37 @@
+DROP TABLE IF EXISTS Espacio;
+DROP TABLE IF EXISTS Espacios;
+DROP TABLE IF EXISTS User;
+
+CREATE TABLE Espacio (
+    espacio_id INT AUTO_INCREMENT PRIMARY KEY,
+    espacio_nombre VARCHAR(40) NOT NULL,
+    espacio_tipo VARCHAR(30) NOT NULL,
+    espacio_capacidad INTEGER(3) NOT NULL
+);
+
+CREATE TABLE Espacios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    espacio_id INT,
+    residencia_id INT
+);
+
+CREATE TABLE User (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_nombre VARCHAR(40) NOT NULL,
+    user_apellido VARCHAR(50) NOT NULL,
+    user_rut VARCHAR(11) NOT NULL,
+    user_email VARCHAR(45),
+    user_telefono INT(13)
+);
+
+INSERT INTO Espacio (espacio_nombre,espacio_tipo,espacio_capacidad) VALUES
+("Tacon","Sala de baile",35),
+("Limeno","Apartamento",92);
+
+INSERT INTO Espacios (espacio_id,residencia_id) VALUES 
+(1,1),
+(2,2);
+
+INSERT INTO User (user_nombre,user_apellido,user_rut,user_email,user_telefono) VALUES
+("Jamie","Rogers",218543328,"jamrog@gmail.com",987621756)
+("Dan","Bennet",208243358,"danito@gmail.com",935410570)

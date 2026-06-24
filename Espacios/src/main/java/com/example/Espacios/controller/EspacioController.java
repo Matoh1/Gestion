@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.Gestion.DTO.EspacioDTO;
-import com.example.Gestion.model.Espacio;
-import com.example.Gestion.service.EspacioService;
+import com.example.Espacios.DTO.EspacioDTO;
+import com.example.Espacios.model.Espacio;
+import com.example.Espacios.service.EspacioService;
 
 import jakarta.validation.Valid;
 
@@ -57,11 +57,11 @@ public class EspacioController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarEspacio(@PathVariable Integer id) {
-        String resultado = espacioService.borrarEspacio(id);
-        if (resultado.startsWith("Error")) {
-            return new ResponseEntity<>(resultado, HttpStatus.BAD_REQUEST);
-        } else {
-            return new ResponseEntity<>(resultado, HttpStatus.OK);
+        try {
+            String resultado = espacioService.borrarEspacio(id);
+            return ResponseEntity.ok(resultado);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -77,4 +77,13 @@ public class EspacioController {
         }
     }
 
+    @DeleteMapping("/eliminarVinculo/{id}/{residenciaId}")
+    public ResponseEntity<String> eliminarVinculo(@PathVariable Integer id, @PathVariable Integer residenciaId) {
+        try {
+            String resultado = espacioService.eliminarVinculo(id, residenciaId);
+            return ResponseEntity.ok(resultado);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

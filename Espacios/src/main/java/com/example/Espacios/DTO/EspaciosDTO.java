@@ -14,4 +14,5 @@ public class EspaciosDTO {
     private Integer id;
     private String espacio;
     private String residencia;
+    private Integer residenciaId;
 }

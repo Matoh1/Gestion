@@ -1,28 +1,31 @@
-package com.example.Gestion.service;
+package com.example.Espacios.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.Gestion.DTO.EspaciosDTO;
-import com.example.Gestion.model.Espacio;
-import com.example.Gestion.model.Espacios;
-import com.example.Gestion.model.Residencia;
-import com.example.Gestion.repository.EspacioRepository;
-import com.example.Gestion.repository.EspaciosRepository;
-import com.example.Gestion.repository.ResidenciaRepository;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import com.example.Espacios.DTO.EspaciosDTO;
+import com.example.Espacios.DTO.ResidenciaExternaDTO;
+import com.example.Espacios.model.Espacio;
+import com.example.Espacios.model.Espacios;
+import com.example.Espacios.repository.EspacioRepository;
+import com.example.Espacios.repository.EspaciosRepository;
 
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
 public class EspaciosService {
 
-    private final EspaciosRepository espaciosRepository;
-    private final EspacioRepository espacioRepository;
-    private final ResidenciaRepository residenciaRepository;
+    @Autowired
+    private EspaciosRepository espaciosRepository;
+    @Autowired
+    private EspacioRepository espacioRepository;
+    @Autowired
+    private WebClient webClient;
 
     // todos
     public List<EspaciosDTO> obtenerTodos() {
@@ -43,28 +46,30 @@ public class EspaciosService {
         Espacio espacio = espacioRepository.findById(espacioId)
                 .orElseThrow(() -> new RuntimeException("No se encontro el Espacio con la ID" + espacioId));
 
-        Residencia residencia = residenciaRepository.findById(residenciaId)
-                .orElseThrow(() -> new RuntimeException("No se encontro la Residencia con la ID" + residenciaId));
+        ResidenciaExternaDTO residencia = webClient.get()
+                .uri("/api/v1/residencias/{id}", residenciaId)
+                .retrieve()
+                .bodyToMono(ResidenciaExternaDTO.class)
+                .block();
+
+        if (residencia == null) {
+            throw new RuntimeException("No se encontro la Residencia con la ID" + residenciaId);
+        }
 
         Espacios espacios = new Espacios();
         espacios.setEspacio(espacio);
-        espacios.setResidencia(residencia);
+        espacios.setResidenciaId(residenciaId);
 
         return espaciosRepository.save(espacios);
     }
 
     // borrar vinculo
     public String eliminarVinculo(Integer Id) {
-        try {
-            Espacios linkER = espaciosRepository.findById(Id)
-                    .orElseThrow(() -> new RuntimeException("No se encontro la relacion con la ID" + Id));
+        Espacios espacios = espaciosRepository.findById(Id)
+                .orElseThrow(() -> new RuntimeException("No se encontro vinculo con la ID" + Id));
 
-            espaciosRepository.delete(linkER);
-
-            return "Relacion con ID " + Id + " fue eliminada exitosamente";
-        } catch (Exception e) {
-            return "Error al eliminar la relacion " + Id + ": " + e.getMessage();
-        }
+        espaciosRepository.delete(espacios);
+        return "El vinculo con ID " + Id + " fue eliminado exitosamente";
     }
 
     private EspaciosDTO convertirADTO(Espacios espacios) {
@@ -76,9 +81,20 @@ public class EspaciosService {
             dto.setEspacio(espacios.getEspacio().getNombre());
         }
 
-        if (espacios.getResidencia() != null) {
-            dto.setResidencia(espacios.getResidencia().getNombre());
+        dto.setResidenciaId(espacios.getResidenciaId());
+        
+        //Sacar el nombre de la residencia
+        try {
+            ResidenciaExternaDTO res = webClient.get()
+                    .uri("/api/v1/residencias/{id}", espacios.getResidenciaId())
+                    .retrieve()
+                    .bodyToMono(ResidenciaExternaDTO.class)
+                    .block();
+            if (res != null) dto.setResidencia(res.getNombre());
+        } catch (Exception e) {
+            dto.setResidencia(null);
         }
+
         return dto;
     }
 

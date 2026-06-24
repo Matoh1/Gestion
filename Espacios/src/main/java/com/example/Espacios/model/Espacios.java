@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,7 +30,8 @@ public class Espacios {
     @ManyToOne
     @JoinColumn(name = "Espacio_ID", nullable = false)
     private Espacio espacio;
-    @ManyToOne
-    @JoinColumn(name = "Residencia_ID", nullable = false)
-    private Residencia residencia;
+
+    @NotNull(message = "La residencia es obligatoria")
+    @Column(name = "Residencia_ID", nullable = false)
+    private Integer residenciaId;
 }

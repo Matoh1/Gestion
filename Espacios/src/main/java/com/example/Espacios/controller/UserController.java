@@ -1,4 +1,4 @@
-    package com.example.Gestion.controller;
+package com.example.Espacios.controller;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.Gestion.DTO.UserDTO;
-import com.example.Gestion.model.User;
-import com.example.Gestion.service.UserService;
+import com.example.Espacios.DTO.UserDTO;
+import com.example.Espacios.model.User;
+import com.example.Espacios.service.UserService;
 
 import jakarta.validation.Valid;
 
@@ -57,13 +57,11 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarUser(@PathVariable Integer id) {
-
-        String resultado = userService.borrarUser(id);
-
-        if (resultado.startsWith("Error")) {
-            return new ResponseEntity<>(resultado, HttpStatus.BAD_REQUEST);
-        } else {
-            return new ResponseEntity<>(resultado, HttpStatus.OK);
+        try {
+            String resultado = userService.borrarUser(id);
+            return ResponseEntity.ok(resultado);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -72,9 +70,20 @@ public class UserController {
     public ResponseEntity<User> asignarResidencia(@PathVariable Integer userId, @PathVariable Integer residenciaId) {
         try {
             User user = userService.asignarResidencia(userId, residenciaId);
-            return ResponseEntity.ok().build();
+                return ResponseEntity.ok(user);        
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    //Desvincular residencia de usuario
+    @DeleteMapping("/desvincular/{userId}/{residenciaId}")
+    public ResponseEntity<String> eliminarResidenciaDeUsuario(@PathVariable Integer userId, @PathVariable Integer residenciaId) {
+        try {
+            String resultado = userService.eliminarResidenciaDeUsuario(userId, residenciaId);
+            return ResponseEntity.ok(resultado);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
