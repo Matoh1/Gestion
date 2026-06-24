@@ -1,6 +1,5 @@
 package com.example.Residencias.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,23 +18,30 @@ import jakarta.transaction.Transactional;
 public class RegionService {
 
     @Autowired
-    private  RegionRepository regionRepository;
+    private RegionRepository regionRepository;
+
     @Autowired
-    private  ComunaRepository comunaRepository;
+    private ComunaRepository comunaRepository;
+
+    @Autowired
+    private ResidenciaValidaciones residenciaValidaciones;
 
     public List<RegionDTO> obtenerTodos() {
         return regionRepository.findAll().stream()
-                .map(this::convertirADTO)
+                .map(residenciaValidaciones::convertirRegionADTO)
                 .toList();
     }
 
     public RegionDTO buscarporID(Integer id) {
         Region region = regionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Región no encontrada con ID " + id));
-        return convertirADTO(region);
+        return residenciaValidaciones.convertirRegionADTO(region);
     }
 
     public Region guardarRegion(Region region) {
+        if (!residenciaValidaciones.validarRegion(region)) {
+            throw new RuntimeException("Datos de región inválidos");
+        }
         return regionRepository.save(region);
     }
 
@@ -55,20 +61,5 @@ public class RegionService {
             return "Region eliminada exitosamente";
         }
         return "No se encontro la Region con la ID " + id;
-    }
-
-    private RegionDTO convertirADTO(Region region) {
-        RegionDTO dto = new RegionDTO();
-        dto.setId(region.getId());
-        dto.setNombre(region.getNombreregion());
-
-        List<String> nombresComunas = new ArrayList<>();
-        if (region.getComunas() != null) {
-            for (Comuna comuna : region.getComunas()) {
-                nombresComunas.add(comuna.getNombrecomuna());
-            }
-        }
-        dto.setComunas(nombresComunas);
-        return dto;
     }
 }

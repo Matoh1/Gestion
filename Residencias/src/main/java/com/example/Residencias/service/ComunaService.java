@@ -1,6 +1,5 @@
 package com.example.Residencias.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,23 +18,30 @@ import jakarta.transaction.Transactional;
 public class ComunaService {
 
     @Autowired
-    private  ComunaRepository comunaRepository;
+    private ComunaRepository comunaRepository;
+
     @Autowired
-    private  ResidenciaRepository residenciaRepository;
+    private ResidenciaRepository residenciaRepository;
+
+    @Autowired
+    private ResidenciaValidaciones residenciaValidaciones;
 
     public List<ComunaDTO> obtenerTodos() {
         return comunaRepository.findAll().stream()
-                .map(this::convertirADTO)
+                .map(residenciaValidaciones::convertirComunaADTO)
                 .toList();
     }
 
     public ComunaDTO buscarporID(Integer id) {
         Comuna comuna = comunaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Comuna no encontrada con ID " + id));
-        return convertirADTO(comuna);
+        return residenciaValidaciones.convertirComunaADTO(comuna);
     }
 
     public Comuna guardarComuna(Comuna comuna) {
+        if (!residenciaValidaciones.validarComuna(comuna)) {
+            throw new RuntimeException("Datos de comuna inválidos");
+        }
         return comunaRepository.save(comuna);
     }
 
@@ -67,26 +73,5 @@ public class ComunaService {
             return "Comuna eliminada exitosamente";
         }
         return "No se encontro la Comuna con la ID " + id;
-    }
-
-    private ComunaDTO convertirADTO(Comuna comuna) {
-        ComunaDTO dto = new ComunaDTO();
-        dto.setId(comuna.getId());
-        dto.setNombre(comuna.getNombrecomuna());
-
-        if (comuna.getRegion() != null) {
-            dto.setRegionId(comuna.getRegion().getId());
-            dto.setRegion(comuna.getRegion().getNombreregion());
-        }
-
-        // Extrae nombres de la lista de residencias
-        List<String> nombresResidencias = new ArrayList<>();
-        if (comuna.getResidencias() != null) {
-            for (Residencia nexo : comuna.getResidencias()) {
-                nombresResidencias.add(nexo.getNombre());
-            }
-        }
-        dto.setResidencia(nombresResidencias);
-        return dto;
     }
 }

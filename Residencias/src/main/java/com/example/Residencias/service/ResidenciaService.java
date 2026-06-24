@@ -16,21 +16,27 @@ import jakarta.transaction.Transactional;
 public class ResidenciaService {
 
     @Autowired
-    private  ResidenciaRepository residenciaRepository;
+    private ResidenciaRepository residenciaRepository;
+
+    @Autowired
+    private ResidenciaValidaciones residenciaValidaciones;
 
     public List<ResidenciaDTO> obtenerTodos() {
         return residenciaRepository.findAll().stream()
-                .map(this::convertirADTO)
+                .map(residenciaValidaciones::convertirResidenciaADTO)
                 .toList();
     }
 
     public ResidenciaDTO buscarporID(Integer id) {
         Residencia residencia = residenciaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Residencia no encontrada con ID " + id));
-        return convertirADTO(residencia);
+        return residenciaValidaciones.convertirResidenciaADTO(residencia);
     }
 
     public Residencia guardarResidencia(Residencia residencia) {
+        if (!residenciaValidaciones.validarResidencia(residencia)) {
+            throw new RuntimeException("Datos de residencia inválidos");
+        }
         return residenciaRepository.save(residencia);
     }
 
@@ -55,20 +61,6 @@ public class ResidenciaService {
             resi.setDireccion(Aresidencia.getDireccion());
         }
         return residenciaRepository.save(resi);
-    }
-
-    private ResidenciaDTO convertirADTO(Residencia residencia) {
-        ResidenciaDTO dto = new ResidenciaDTO();
-        dto.setId(residencia.getId());
-        dto.setNombre(residencia.getNombre());
-        dto.setDireccion(residencia.getDireccion());
-
-        // Mapeo de los datos de la Comuna relacionada a la residencia
-        if (residencia.getComuna() != null) {
-            dto.setComunaId(residencia.getComuna().getId());
-            dto.setNombreComuna(residencia.getComuna().getNombrecomuna());
-        }
-        return dto;
     }
 
 }

@@ -16,23 +16,21 @@ spring:
               predicates:
                 - Path=/api/v1/incidencias/**,/api/v1/incidencia/**,/api/v1/tipo_incidencias/**
 
-            # Microservicio Residencias (puerto 8082): expone regiones, comunas y residencias.
             - id: residencia-service
-              uri: http://127.0.0.1:8082
+              uri: lb://residencia
               predicates:
-                - Path=/api/v1/residencia/**
+                - Path=/api/v1/residencia/**,/api/v1/comuna/**,/api/v1/region/**,/api/v1/residencias/**
 
-            - id: comuna-service
-              uri: http://127.0.0.1:8082
-              predicates:
-                - Path=/api/v1/comuna/**
-
-            - id: region-service
-              uri: http://127.0.0.1:8082
-              predicates:
-                - Path=/api/v1/region/**
-
-            - id: residencias-service
-              uri: http://127.0.0.1:8082
-              predicates:
-                - Path=/api/v1/residencias/**
+springdoc:
+  swagger-ui:
+    path: /swagger-ui/index.html
+    urls:
+      - name: Microservicio Residencias
+        url: /residencias/api-docs
+      - name: Microservicio Incidencias
+        url: /incidencias/api-docs
+        
+      - name: Microservicio Espacios
+        url: /espacios/api-docs
+  api-docs:
+    enabled: true
