@@ -1,6 +1,0 @@
-CREATE TABLE Espacio (
-    id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(40) NOT NULL,
-    tipo VARCHAR(30) NOT NULL,
-    capacidad INTEGER(3) NOT NULL
-);
