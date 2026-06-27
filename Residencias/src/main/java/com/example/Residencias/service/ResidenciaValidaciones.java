@@ -57,7 +57,7 @@ public class ResidenciaValidaciones {
         try {
             UserExternoDTO usuarioExterno = webClientBuilder.build()
                     .get()
-                    .uri("http://usuarios/api/v1/user/" + residencias.getUserId())
+                    .uri("http://Espacios/api/v1/user/" + residencias.getUserId())
                     .retrieve()
                     .onStatus(HttpStatusCode::is4xxClientError, response -> Mono.empty())
                     .bodyToMono(UserExternoDTO.class)
@@ -79,7 +79,7 @@ public class ResidenciaValidaciones {
         try {
             return webClientBuilder.build()
                     .get()
-                    .uri("http://usuarios/api/v1/user/" + userId)
+                    .uri("http://Espacios/api/v1/user/" + userId)
                     .retrieve()
                     .onStatus(HttpStatusCode::is4xxClientError, response -> Mono.empty())
                     .bodyToMono(UserExternoDTO.class)

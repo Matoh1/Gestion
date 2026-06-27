@@ -1,4 +1,4 @@
-package com.jedis.eureka;
+package com.gestion.eureka;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

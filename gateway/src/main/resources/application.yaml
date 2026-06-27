@@ -10,16 +10,20 @@ spring:
       server:
         webmvc:
           routes:
-            # Microservicio Incidencias (puerto 8083): expone reportes, detalles y tipos.
             - id: incidencias-service
-              uri: http://127.0.0.1:8083
+              uri: lb://incidencias
               predicates:
-                - Path=/api/v1/incidencias/**,/api/v1/incidencia/**,/api/v1/tipo_incidencias/**
+                - Path=/api/v1/incidencias/**,/api/v1/incidencia/**,/api/v1/tipo_incidencias/**,/incidencias/api-docs/**
+
+            - id: espacios-service
+              uri: lb://Espacios
+              predicates:
+                - Path=/api/v1/espacio/**,/api/v1/espacios/**,/api/v1/user/**,/espacios/api-docs/**
 
             - id: residencia-service
-              uri: lb://residencia
+              uri: lb://Residencias
               predicates:
-                - Path=/api/v1/residencia/**,/api/v1/comuna/**,/api/v1/region/**,/api/v1/residencias/**
+                - Path=/api/v1/residencia/**,/api/v1/comuna/**,/api/v1/region/**,/api/v1/residencias/**,/api/v2/residencia/**,/api/v2/comuna/**,/api/v2/region/**,/api/v2/residencias/**,/residencias/api-docs/**
 
 springdoc:
   swagger-ui:
