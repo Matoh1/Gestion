@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: jedi-service 
+              uri: lb://jedis
+              predicates:
+                - Path=/api/v1/jedis/**, /api/v2/jedis/**, /jedis/api-docs/**
+
+            - id: cristales-service
+              uri: lb://sables
+              predicates:
+                - Path=/api/v1/cristales/**, /api/v2/cristales/**,  /cristales/api-docs/**
+
+            - id: sables-service
+              uri: lb://sables
+              predicates:
+                - Path=/api/v1/sables/**, /api/v2/sables/**, /sables/api-docs/**
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui/index.html
+    urls:
+      - name: Microservicio Jedis
+        url: /jedis/api-docs
+      - name: Microservicio Sables
+        url: /sables/api-docs
+  api-docs:
+    enabled: true
