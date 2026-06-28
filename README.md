@@ -143,6 +143,9 @@ Algunos endpoints con sus cuerpos JSON:
   "residenciaId": 1
 }
 ```
+- `POST /api/v1/user/{userId}/{residenciaId}`
+- `DELETE /api/v1/user/{id}`
+- `DELETE /api/v1/user/desvincular/{userId}/{residenciaId}`
 
 **Espacios**
 - `GET /api/v1/espacio`
@@ -156,6 +159,14 @@ Algunos endpoints con sus cuerpos JSON:
 }
 ```
 - `POST /api/v1/espacio/{espacioId}/{residenciaId}`
+- `DELETE /api/v1/espacio/{id}`
+- `DELETE /api/v1/espacio/eliminarVinculo/{id}/{residenciaId}`
+
+**Asignaciones (Espacio-Residencia)**
+- `GET /api/v1/espacios`
+- `GET /api/v1/espacios/{id}`
+- `POST /api/v1/espacios/{espacioId}/{residenciaId}`
+- `DELETE /api/v1/espacios/{id}`
 
 ---
 
@@ -172,6 +183,7 @@ Algunos endpoints con sus cuerpos JSON:
   "prioridad": "Alta"
 }
 ```
+- `DELETE /api/v1/incidencias/{id}`
 
 **Detalle de incidencias**
 - `GET /api/v1/incidencia`
@@ -185,6 +197,7 @@ Algunos endpoints con sus cuerpos JSON:
   "estado": "Abierto"
 }
 ```
+- `DELETE /api/v1/incidencia/{id}`
 
 **Tipos de incidencia**
 - `GET /api/v1/tipo_incidencias`
@@ -195,6 +208,7 @@ Algunos endpoints con sus cuerpos JSON:
   "nombretipo": "Fontanería"
 }
 ```
+- `DELETE /api/v1/tipo_incidencias/{id}`
 
 ## ԅ(¯﹃¯ԅ) Estructura del proyecto
 
