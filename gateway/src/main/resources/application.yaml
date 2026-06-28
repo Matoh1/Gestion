@@ -33,7 +33,6 @@ springdoc:
         url: /residencias/api-docs
       - name: Microservicio Incidencias
         url: /incidencias/api-docs
-        
       - name: Microservicio Espacios
         url: /espacios/api-docs
   api-docs:
