@@ -79,6 +79,7 @@ http://localhost:8080
 
 Algunos endpoints con sus cuerpos JSON:
 
+### 🏢 Residencias (`Matías`)
 **Regiones (V2)**
 - `GET /api/v2/region`
 - `GET /api/v2/region/{id}`
@@ -125,6 +126,9 @@ Algunos endpoints con sus cuerpos JSON:
 - `POST /api/v2/residencias/residencia/{residenciaId}/usuario/{userId}`
 - `DELETE /api/v2/residencias/residencia/{residenciaId}/usuario/{userId}`
 
+---
+
+### 🅿️ Espacios (`Román`)
 **Usuarios**
 - `GET /api/v1/user`
 - `GET /api/v1/user/{id}`
@@ -142,6 +146,7 @@ Algunos endpoints con sus cuerpos JSON:
 
 **Espacios**
 - `GET /api/v1/espacio`
+- `GET /api/v1/espacio/{id}`
 - `POST /api/v1/espacio`
 ```json
 {
@@ -152,8 +157,12 @@ Algunos endpoints con sus cuerpos JSON:
 ```
 - `POST /api/v1/espacio/{espacioId}/{residenciaId}`
 
-**Incidencias (reportes)**
+---
+
+### 🛠️ Incidencias (`Joel`)
+**Reportes**
 - `GET /api/v1/incidencias`
+- `GET /api/v1/incidencias/{id}`
 - `POST /api/v1/incidencias`
 ```json
 {
@@ -164,8 +173,9 @@ Algunos endpoints con sus cuerpos JSON:
 }
 ```
 
-**Incidencia (detalle)**
+**Detalle de incidencias**
 - `GET /api/v1/incidencia`
+- `GET /api/v1/incidencia/{id}`
 - `POST /api/v1/incidencia`
 ```json
 {
@@ -178,6 +188,7 @@ Algunos endpoints con sus cuerpos JSON:
 
 **Tipos de incidencia**
 - `GET /api/v1/tipo_incidencias`
+- `GET /api/v1/tipo_incidencias/{id}`
 - `POST /api/v1/tipo_incidencias`
 ```json
 {
@@ -187,40 +198,45 @@ Algunos endpoints con sus cuerpos JSON:
 
 ## ԅ(¯﹃¯ԅ) Estructura del proyecto
 
+```
+Gestion/
+├── eureka/              # Service Discovery
+│   └── src/...
+├── gateway/             # API Gateway
+│   └── src/...
+├── Residencias/         # Regiones, comunas, residencias
+│   └── src/...
+├── Espacios/            # Usuarios y espacios comunes
+│   └── src/...
+├── Incidencias/         # Reportes y tipos de incidencia
+│   └── src/...
+├── iniciar-todo.bat     # Script Windows
+├── iniciar-todo.sh      # Script macOS
+└── README.md
+```
+
+Cada microservicio sigue la misma estructura interna:
+
 ```css
-src
-|
-+---main
-|   +---java
-|   |   \---com
-|   |       \---example
-|   |           \---Gestion
-|   |               +---controller
-|   |               +---DTO
-|   |               +---model
-|   |               +---repository
-|   |               \---service
-|   \---resources
-|       \---application.properties
-\---test
-    \---java
-        \---com
-            \---example
-                \---Gestion
+src/
+├── main/
+│   ├── java/com/example/[servicio]/
+│   │   ├── controller/
+│   │   ├── DTO/
+│   │   ├── model/
+│   │   ├── repository/
+│   │   └── service/
+│   └── resources/
+│       ├── application.yml
+│       └── db/migration/   (Flyway)
+└── test/
 ```
 
 ## ヾ(＠⌒ー⌒＠)ノ Tablas principales
 
-- `Region`
-- `Comuna`
-- `Residencia`
-- `User`
-- `Residencias`
-- `Espacio`
-- `Espacios`
-- `Incidencias`
-- `Incidencia`
-- `Tipo_Incidencia`
+**Residencias:** `Region`, `Comuna`, `Residencia`, `Residencias`
+**Espacios:** `User`, `Espacio`, `Espacios`
+**Incidencias:** `Incidencias`, `Incidencia`, `Tipo_Incidencia`
 
 ## ✍️ Autores
 
