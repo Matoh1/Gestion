@@ -69,7 +69,7 @@ public class IncidenciasService {
         try {
             ResidenciaExternoDTO residencia = webClientBuilder.build()
                     .get()
-                    .uri("http://localhost:8082/api/v1/residencia/" + incidencias.getResidenciaId())
+                    .uri("http://Residencias/api/v1/residencia/" + incidencias.getResidenciaId())
                     .retrieve()
                     .onStatus(HttpStatusCode::is4xxClientError, response -> Mono.empty()) // si no existe, no rompe
                     .bodyToMono(ResidenciaExternoDTO.class)

@@ -13,7 +13,7 @@ spring:
             - id: incidencias-service
               uri: lb://incidencias
               predicates:
-                - Path=/api/v1/incidencias/**,/api/v1/incidencia/**,/api/v1/tipo_incidencias/**,/incidencias/api-docs/**
+                - Path=/api/v1/incidencias/**,/api/v1/incidencia/**,/api/v1/tipo_incidencias/**,/api/v2/incidencias/**,/api/v2/incidencia/**,/api/v2/tipo_incidencias/**,/incidencias/api-docs/**
 
             - id: espacios-service
               uri: lb://Espacios

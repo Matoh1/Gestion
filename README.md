@@ -52,7 +52,7 @@ Con extensiones como:
 ```sql
 CREATE DATABASE db_residencia_dev;
 CREATE DATABASE db_espacios_dev;
-CREATE DATABASE db_incidencias_dev;
+CREATE DATABASE db_gestion_incidencias_dev;
 ```
 
 3. Ejecuta el script según tu sistema:
@@ -175,6 +175,10 @@ Algunos endpoints con sus cuerpos JSON:
 - `GET /api/v1/incidencias`
 - `GET /api/v1/incidencias/{id}`
 - `POST /api/v1/incidencias`
+- `GET /api/v2/incidencias` (HATEOAS)
+- `GET /api/v2/incidencias/{id}` (HATEOAS)
+- `POST /api/v2/incidencias` (HATEOAS)
+- `DELETE /api/v2/incidencias/{id}`
 ```json
 {
   "residenciaId": 1,
@@ -189,6 +193,10 @@ Algunos endpoints con sus cuerpos JSON:
 - `GET /api/v1/incidencia`
 - `GET /api/v1/incidencia/{id}`
 - `POST /api/v1/incidencia`
+- `GET /api/v2/incidencia` (HATEOAS)
+- `GET /api/v2/incidencia/{id}` (HATEOAS)
+- `POST /api/v2/incidencia` (HATEOAS)
+- `DELETE /api/v2/incidencia/{id}`
 ```json
 {
   "incidencias": { "id": 1 },
@@ -203,6 +211,10 @@ Algunos endpoints con sus cuerpos JSON:
 - `GET /api/v1/tipo_incidencias`
 - `GET /api/v1/tipo_incidencias/{id}`
 - `POST /api/v1/tipo_incidencias`
+- `GET /api/v2/tipo_incidencias` (HATEOAS)
+- `GET /api/v2/tipo_incidencias/{id}` (HATEOAS)
+- `POST /api/v2/tipo_incidencias` (HATEOAS)
+- `DELETE /api/v2/tipo_incidencias/{id}`
 ```json
 {
   "nombretipo": "Fontanería"
