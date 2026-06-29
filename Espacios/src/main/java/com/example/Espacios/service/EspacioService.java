@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.Espacios.DTO.EspacioDTO;
 import com.example.Espacios.DTO.ResidenciaExternaDTO;
@@ -25,13 +24,13 @@ public class EspacioService {
 
     @Autowired
     private EspaciosRepository espaciosRepository;
-    
+
     @Autowired
-    private WebClient webClient;
+    private EspaciosValidaciones espaciosValidaciones;
 
     public List<EspacioDTO> obtenerTodos() {
         return espacioRepository.findAll().stream()
-                .map(this::convertirADTO)
+                .map(espaciosValidaciones::convertirEspacioADTO)
                 .toList();
     }
 
@@ -39,11 +38,14 @@ public class EspacioService {
     public EspacioDTO buscarporID(Integer id) {
         Espacio espacio = espacioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No se encontro el Espacio con la ID" + id));
-        return convertirADTO(espacio);
+        return espaciosValidaciones.convertirEspacioADTO(espacio);
     }
 
     // guardar
     public Espacio guardarEspacio(Espacio espacio) {
+        if (!espaciosValidaciones.validarEspacio(espacio)) {
+            throw new RuntimeException("Datos de espacio inválidos");
+        }
         return espacioRepository.save(espacio);
     }
 
@@ -61,11 +63,7 @@ public class EspacioService {
         Espacio espacio = espacioRepository.findById(espacioId)
                 .orElseThrow(() -> new RuntimeException("no se encontro el Espacio con la ID" + espacioId));
 
-        ResidenciaExternaDTO res = webClient.get()
-                .uri("/api/v1/residencias/{id}", residenciaId)
-                .retrieve()
-                .bodyToMono(ResidenciaExternaDTO.class)
-                .block();
+        ResidenciaExternaDTO res = espaciosValidaciones.obtenerResidenciaExterna(residenciaId);
 
         if (res == null) {
             throw new RuntimeException("No se encontro la residencia con la ID" + residenciaId);
