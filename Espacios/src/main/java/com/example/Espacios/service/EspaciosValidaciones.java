@@ -47,7 +47,7 @@ public class EspaciosValidaciones {
         try {
             ResidenciaExternaDTO residencia = webClientBuilder.build()
                     .get()
-                    .uri("/api/v1/residencias/{id}", espacios.getResidenciaId())
+                    .uri("http://Residencias/api/v1/residencias/{id}", espacios.getResidenciaId())
                     .retrieve()
                     .onStatus(HttpStatusCode::is4xxClientError, response -> Mono.empty())
                     .bodyToMono(ResidenciaExternaDTO.class)
@@ -68,7 +68,7 @@ public class EspaciosValidaciones {
         try {
             return webClientBuilder.build()
                     .get()
-                    .uri("/api/v1/residencias/{id}", residenciaId)
+                    .uri("http://Residencias/api/v1/residencias/{id}", residenciaId)
                     .retrieve()
                     .onStatus(HttpStatusCode::isError, response -> Mono.error(new RuntimeException("Error al obtener residencia externa")))
                     .bodyToMono(ResidenciaExternaDTO.class)
