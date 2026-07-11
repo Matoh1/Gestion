@@ -1,3 +1,0 @@
-CREATE DATABASE IF NOT EXISTS db_gestion;
-CREATE DATABASE IF NOT EXISTS db_gestion_incidencias_dev;
-CREATE DATABASE IF NOT EXISTS db_residencia_dev;

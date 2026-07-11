@@ -1,16 +1,49 @@
 version: '3.8'
 
 services:
-  mysql-db:
+  mysql-espacios:
     image: mysql:8.0
-    container_name: mysql-gestion
+    container_name: mysql-espacios
     ports:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      MYSQL_DATABASE: db_gestion
+    networks:
+      - network-gestion
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  mysql-incidencias:
+    image: mysql:8.0
+    container_name: mysql-incidencias
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: db_gestion_incidencias_dev
+    networks:
+      - network-gestion
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  mysql-residencias:
+    image: mysql:8.0
+    container_name: mysql-residencias
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: db_residencia_dev
     networks:
       - network-gestion
     healthcheck:
@@ -53,11 +86,11 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: dev
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8761/eureka/
-      DATABASE_HOST: mysql-db
+      DATABASE_HOST: mysql-espacios
     networks:
       - network-gestion
     depends_on:
-      mysql-db:
+      mysql-espacios:
         condition: service_healthy
       eureka-server:
         condition: service_healthy
@@ -68,11 +101,11 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: dev
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8761/eureka/
-      DATABASE_HOST: mysql-db
+      DATABASE_HOST: mysql-incidencias
     networks:
       - network-gestion
     depends_on:
-      mysql-db:
+      mysql-incidencias:
         condition: service_healthy
       eureka-server:
         condition: service_healthy
@@ -83,11 +116,11 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: dev
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8761/eureka/
-      DATABASE_HOST: mysql-db
+      DATABASE_HOST: mysql-residencias
     networks:
       - network-gestion
     depends_on:
-      mysql-db:
+      mysql-residencias:
         condition: service_healthy
       eureka-server:
         condition: service_healthy
