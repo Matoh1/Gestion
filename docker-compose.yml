@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  mysql-espacios:
-    image: mysql:8.0
-    container_name: mysql-espacios
+  mariadb-espacios:
+    image: mariadb:10.11
+    container_name: mariadb-espacios
     ports:
       - "3306:3306"
     environment:
@@ -13,14 +13,14 @@ services:
     networks:
       - network-gestion
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root"]
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root"]
       interval: 10s
       timeout: 5s
       retries: 20
 
-  mysql-incidencias:
-    image: mysql:8.0
-    container_name: mysql-incidencias
+  mariadb-incidencias:
+    image: mariadb:10.11
+    container_name: mariadb-incidencias
     ports:
       - "3307:3306"
     environment:
@@ -30,14 +30,14 @@ services:
     networks:
       - network-gestion
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root"]
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root"]
       interval: 10s
       timeout: 5s
       retries: 20
 
-  mysql-residencias:
-    image: mysql:8.0
-    container_name: mysql-residencias
+  mariadb-residencias:
+    image: mariadb:10.11
+    container_name: mariadb-residencias
     ports:
       - "3308:3306"
     environment:
@@ -47,7 +47,7 @@ services:
     networks:
       - network-gestion
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root"]
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root"]
       interval: 10s
       timeout: 5s
       retries: 20
@@ -86,11 +86,11 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: dev
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8761/eureka/
-      DATABASE_HOST: mysql-espacios
+      DATABASE_HOST: mariadb-espacios
     networks:
       - network-gestion
     depends_on:
-      mysql-espacios:
+      mariadb-espacios:
         condition: service_healthy
       eureka-server:
         condition: service_healthy
@@ -101,11 +101,11 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: dev
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8761/eureka/
-      DATABASE_HOST: mysql-incidencias
+      DATABASE_HOST: mariadb-incidencias
     networks:
       - network-gestion
     depends_on:
-      mysql-incidencias:
+      mariadb-incidencias:
         condition: service_healthy
       eureka-server:
         condition: service_healthy
@@ -116,11 +116,11 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: dev
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8761/eureka/
-      DATABASE_HOST: mysql-residencias
+      DATABASE_HOST: mariadb-residencias
     networks:
       - network-gestion
     depends_on:
-      mysql-residencias:
+      mariadb-residencias:
         condition: service_healthy
       eureka-server:
         condition: service_healthy
